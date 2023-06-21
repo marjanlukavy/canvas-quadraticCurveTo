@@ -1,1 +1,1 @@
-# canvas-quadraticCurveTo
+This script enables smooth curve drawing on an HTML canvas. It allows users to create curves by clicking and dragging points on the canvas. The script automatically calculates the control points to ensure smoothness and updates the curves in real-time. It also supports dragging and repositioning of individual points. The canvas is initialized with an image that serves as the background.
