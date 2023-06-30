@@ -105,12 +105,24 @@ document.addEventListener("DOMContentLoaded", function () {
     dots[1] = controlPoint;
   }
 
-  function calculateControlPoint(startPoint, endPoint) {
-    var controlPoint = {
-      x: 2 * midPoint.x - (startPoint.x + endPoint.x) / 2,
-      y: 2 * midPoint.y - (startPoint.y + endPoint.y) / 2,
+  function calculateControlPoint(startPoint, midPoint, endPoint) {
+    var dx1 = startPoint.x - midPoint.x;
+    var dx2 = endPoint.x - midPoint.x;
+    var dy1 = startPoint.y - midPoint.y;
+    var dy2 = endPoint.y - midPoint.y;
+    var dist1 = Math.sqrt(dx1 * dx1 + dy1 * dy1);
+    var dist2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+
+    var pc = {
+      x:
+        midPoint.x -
+        (Math.sqrt(dist1 * dist2) * (dx1 / dist1 + dx2 / dist2)) / 2,
+      y:
+        midPoint.y -
+        (Math.sqrt(dist1 * dist2) * (dy1 / dist1 + dy2 / dist2)) / 2,
     };
-    return controlPoint;
+
+    return pc;
   }
 
   function drawLine(line) {
@@ -118,10 +130,8 @@ document.addEventListener("DOMContentLoaded", function () {
     var midPoint = line.midPoint;
     var endPoint = line.endPoint;
 
-    var controlPoint = {
-      x: 2 * midPoint.x - (startPoint.x + endPoint.x) / 2,
-      y: 2 * midPoint.y - (startPoint.y + endPoint.y) / 2,
-    };
+    var controlPoint = calculateControlPoint(startPoint, midPoint, endPoint);
+
     context.beginPath();
     context.moveTo(startPoint.x, startPoint.y);
     context.quadraticCurveTo(
